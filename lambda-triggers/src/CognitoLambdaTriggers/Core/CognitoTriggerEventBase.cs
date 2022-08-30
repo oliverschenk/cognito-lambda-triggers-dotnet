@@ -17,7 +17,7 @@ public class CognitoTriggerEventBase : ICognitoTriggerEvent
     public string UserPoolId { get; set; }
     
     [JsonPropertyName("userName")]
-    public Guid UserName { get; set; }
+    public string UserName { get; set; }
 
     [JsonPropertyName("callerContext")]
     public CallerContext CallerContext { get; set; }

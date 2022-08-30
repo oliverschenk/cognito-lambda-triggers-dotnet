@@ -11,7 +11,7 @@ public interface ICognitoTriggerEvent
 
     string UserPoolId { get; }
     
-    Guid UserName { get; }
+    string UserName { get; }
 
     CallerContext CallerContext { get; }
 }

@@ -19,7 +19,9 @@ The infrastructure to be deployed by this repo is defined using Terraform. When 
 
 ## Implementing Cognito Triggers
 
-To implement a Cognito trigger, find the relevant Handler class and implement the `HandleTrigger` method. This implementation should return with `base.HandleTrigger()`. THe `NoActionHandler` is an example of a handler implementation that simply returns the event that was received.
+To implement a Cognito trigger, find the relevant Handler class and implement the `HandleTriggerEvent` method. This implementation should return with `base.HandleTriggerEvent()`. The `NoActionHandler` is an example of a handler implementation that simply returns the event that was received.
+
+If you want an `async` call then override the `HandleTriggerEventAsync` method instead.
 
 ## Deployment
 ### Running terraform manually
@@ -32,7 +34,7 @@ terraform init
 terraform apply
 ```
 
-### Building and packaging
+### Building and packaging manually
 
 ```
 cd lambda-triggers/src/CognitoLambdaTriggers

@@ -1,0 +1,22 @@
+{
+    "version": "1",
+    "region": "us-east-1",
+    "userPoolId": "us-east-1_xxxxxxx",
+    "userName": "2d4eb80f-7998-xxxx-xxxx-xxxxxxxxxx",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-unknown-unknown",
+        "clientId": "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "triggerSource": "PreSignUp_SignUp",
+    "request": {
+        "userAttributes": {
+            "email": "xxxxxxxxxxxxxxx@gmail.com"
+        },
+        "validationData": null
+    },
+    "response": {
+        "autoConfirmUser": false,
+        "autoVerifyEmail": false,
+        "autoVerifyPhone": false
+    }
+}

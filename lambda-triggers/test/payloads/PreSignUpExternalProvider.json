@@ -1,0 +1,25 @@
+{
+    "version": "1",
+    "region": "us-east-1",
+    "userPoolId": "us-east-1_xxxxxx",
+    "userName": "Google_xxxxxxxxxxxxxxxxxxxxx",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-unknown-unknown",
+        "clientId": "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "triggerSource": "PreSignUp_ExternalProvider",
+    "request": {
+        "userAttributes": {
+            "email_verified": "false",
+            "cognito:email_alias": "",
+            "cognito:phone_number_alias": "",
+            "email": "xxxxxx@xxxxxx.com"
+        },
+        "validationData": {}
+    },
+    "response": {
+        "autoConfirmUser": false,
+        "autoVerifyEmail": false,
+        "autoVerifyPhone": false
+    }
+}

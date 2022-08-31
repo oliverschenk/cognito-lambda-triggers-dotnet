@@ -1,0 +1,22 @@
+{
+    "version": "1",
+    "region": "us-east-1",
+    "userPoolId": "us-east-1_abcdef",
+    "userName": "email@address.com",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-nodejs-2.799.0",
+        "clientId": "CLIENT_ID_NOT_APPLICABLE"
+    },
+    "triggerSource": "PreSignUp_AdminCreateUser",
+    "request": {
+        "userAttributes": {
+            "email": "email@address.com"
+        },
+        "validationData": null
+    },
+    "response": {
+        "autoConfirmUser": false,
+        "autoVerifyEmail": false,
+        "autoVerifyPhone": false
+    }
+}

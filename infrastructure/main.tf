@@ -14,9 +14,13 @@ resource "random_string" "external_id" {
 resource "aws_cognito_user_pool" "cognito_user_pool" {
   name = "${local.id}-user-pool"
 
-  username_attributes      = ["phone_number"]
-  auto_verified_attributes = ["phone_number"]
+  username_attributes      = ["email", "phone_number"]
+  auto_verified_attributes = ["email"]
+
   sms_verification_message = "Your account activation code is {####}"
+
+  email_verification_subject = "Account verification code"
+  email_verification_message = "Your account activation code is {####}"
 
   admin_create_user_config {
     allow_admin_create_user_only = false
@@ -38,8 +42,12 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
 
   account_recovery_setting {
     recovery_mechanism {
-      name     = "verified_phone_number"
+      name     = "verified_email"
       priority = 1
+    }
+    recovery_mechanism {
+      name     = "verified_phone_number"
+      priority = 2
     }
   }
 
@@ -53,6 +61,19 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
     string_attribute_constraints {
       min_length = 0
       max_length = 1048
+    }
+  }
+
+  schema {
+    name                     = "email"
+    attribute_data_type      = "String"
+    developer_only_attribute = false
+    mutable                  = true
+    required                 = true
+
+    string_attribute_constraints {
+      min_length = 0
+      max_length = 256
     }
   }
 
@@ -257,7 +278,7 @@ resource "aws_lambda_function" "lambda_function_trigger" {
   filename         = local.lambda_archive_path
   function_name    = "${local.id}-lambda-function-trigger"
   role             = aws_iam_role.iam_role.arn
-  handler          = "AwsCognitoAngular.Triggers::CognitoLambdaTriggers.Function::FunctionHandler"
+  handler          = "CognitoLambdaTriggers::CognitoLambdaTriggers.Function::FunctionHandler"
   runtime          = "dotnet6"
   source_code_hash = filebase64sha256(local.lambda_archive_path)
 }

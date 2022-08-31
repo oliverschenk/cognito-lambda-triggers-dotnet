@@ -1,11 +1,10 @@
 using System.Text.Json;
 using Amazon.Lambda.Core;
-using CognitoLambdaTriggers.Handlers;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace AwsCognitoAngular.Triggers;
+namespace CognitoLambdaTriggers;
 
 public class Function
 {

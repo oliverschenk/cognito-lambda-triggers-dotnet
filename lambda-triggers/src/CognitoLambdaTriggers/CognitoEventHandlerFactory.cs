@@ -1,8 +1,9 @@
 using System.Text.Json;
 using Amazon.Lambda.Core;
 using CognitoLambdaTriggers.Core;
+using CognitoLambdaTriggers.Handlers;
 
-namespace CognitoLambdaTriggers.Handlers;
+namespace CognitoLambdaTriggers;
 
 public class CognitoEventHandlerFactory
 {

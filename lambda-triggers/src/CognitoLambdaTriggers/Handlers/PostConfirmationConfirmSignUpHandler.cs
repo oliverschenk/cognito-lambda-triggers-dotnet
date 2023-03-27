@@ -14,5 +14,6 @@ internal class PostConfirmationConfirmSignUpHandler : CognitoTriggerHandler<Post
     public PostConfirmationConfirmSignUpHandler(JsonElement cognitoEvent, ILambdaLogger logger)
         : base(cognitoEvent, logger)
     {
+        
     }
 }

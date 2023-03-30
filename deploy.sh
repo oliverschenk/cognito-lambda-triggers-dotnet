@@ -18,9 +18,10 @@ function usage {
     echo "  Script for deploying resources to AWS."
     echo ""
     echo "USAGE:"
-    echo "  deploy.sh [-p profile] [-r region] [-s stage]"
+    echo "  deploy.sh -e email_address [-p profile] [-r region] [-s stage]"
     echo ""
     echo "OPTIONS"
+    echo "  -e   email address for testing"
     echo "  -p   the AWS credentials profile to use (default: none)"
     echo "  -r   region (default: ap-southeast-2)"
     echo "  -s   the stage to deploy [dev, test, prod] (default: dev)"
@@ -34,8 +35,9 @@ function popd() {
     command popd "$@" >/dev/null
 }
 
-while getopts "p:r:s" option; do
+while getopts "e:p:r:s" option; do
     case ${option} in
+    e) EMAIL=$OPTARG ;;
     p) AWS_PROFILE=$OPTARG ;;
     r) REGION=$OPTARG ;;
     s) STAGE=$OPTARG ;;
@@ -47,14 +49,21 @@ while getopts "p:r:s" option; do
     esac
 done
 
+if [[ -z "${EMAIL}" ]]; then
+    echo "Please a valid email address for testing"
+    VALIDATION_ERROR=1
+fi
+
 if [[ -n "${VALIDATION_ERROR}" ]]; then
+    echo ""
     usage
     exit 1
 fi
 
 if [[ -n "${AWS_PROFILE}" ]]; then
     export AWS_PROFILE=$AWS_PROFILE
-    AWS_PROFILE="none"
+else
+    AWS_PROFILE="-"
 fi
 
 case ${STAGE,,} in
@@ -106,7 +115,7 @@ echo "=== Applying action: ${TF_ACTION} ==="
 pushd ./infrastructure
 
 terraform init
-terraform ${TF_ACTION} --var aws_region=${REGION} --var project_name=${NAME}
+terraform ${TF_ACTION} --var aws_region=${REGION} --var project_name=${NAME} --var email_identity=${EMAIL}
 
 popd
 ##############################################################

@@ -53,7 +53,8 @@ fi
 
 if [[ -n "${AWS_PROFILE}" ]]; then
     export AWS_PROFILE=$AWS_PROFILE
-    AWS_PROFILE="default"
+else
+    AWS_PROFILE="-"
 fi
 
 echo "=== Using the following parameters ==="

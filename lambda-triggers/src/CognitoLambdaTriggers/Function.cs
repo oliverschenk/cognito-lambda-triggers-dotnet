@@ -11,7 +11,7 @@ public class Function
     private ILambdaLogger Logger;
 
     [LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.CamelCaseLambdaJsonSerializer))]
-    public async Task<dynamic> FunctionHandler(JsonElement cognitoEvent, ILambdaContext context)
+    public async Task<JsonElement> FunctionHandler(JsonElement cognitoEvent, ILambdaContext context)
     {
         Logger = context.Logger;
 

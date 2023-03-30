@@ -91,29 +91,30 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
   }
 
   lambda_config {
-    custom_message                 = aws_lambda_function.lambda_function_trigger.arn
-    post_authentication            = aws_lambda_function.lambda_function_trigger.arn
-    post_confirmation              = aws_lambda_function.lambda_function_trigger.arn
-    pre_authentication             = aws_lambda_function.lambda_function_trigger.arn
-    pre_sign_up                    = aws_lambda_function.lambda_function_trigger.arn
-    pre_token_generation           = aws_lambda_function.lambda_function_trigger.arn
-    create_auth_challenge          = aws_lambda_function.lambda_function_trigger.arn
-    define_auth_challenge          = aws_lambda_function.lambda_function_trigger.arn
-    verify_auth_challenge_response = aws_lambda_function.lambda_function_trigger.arn
+    # custom_message                 = aws_lambda_function.lambda_function_trigger.arn
+    # post_authentication            = aws_lambda_function.lambda_function_trigger.arn
+    # post_confirmation              = aws_lambda_function.lambda_function_trigger.arn
+    # pre_authentication             = aws_lambda_function.lambda_function_trigger.arn
+    # pre_sign_up                    = aws_lambda_function.lambda_function_trigger.arn
+    # pre_token_generation           = aws_lambda_function.lambda_function_trigger.arn
+    # create_auth_challenge          = aws_lambda_function.lambda_function_trigger.arn
+    # define_auth_challenge          = aws_lambda_function.lambda_function_trigger.arn
+    # verify_auth_challenge_response = aws_lambda_function.lambda_function_trigger.arn
 
-    user_migration = aws_lambda_function.lambda_function_trigger.arn
+    # user_migration = aws_lambda_function.lambda_function_trigger.arn
 
-    custom_email_sender {
-      lambda_arn     = aws_lambda_function.lambda_function_trigger.arn
-      lambda_version = "V1_0"
-    }
+    # custom_email_sender {
+    #   lambda_arn     = aws_lambda_function.lambda_function_trigger.arn
+    #   lambda_version = "V1_0"
+    # }
 
-    custom_sms_sender {
-      lambda_arn     = aws_lambda_function.lambda_function_trigger.arn
-      lambda_version = "V1_0"
-    }
+    # custom_sms_sender {
+    #   lambda_arn     = aws_lambda_function.lambda_function_trigger.arn
+    #   lambda_version = "V1_0"
+    # }
 
-    kms_key_id = aws_kms_key.kms_key.arn
+    # only required for custom senders
+    # kms_key_id = aws_kms_key.kms_key.arn
   }
 }
 
@@ -169,7 +170,9 @@ resource "aws_cognito_user_pool_client" "cognito_user_pool_client" {
 
   explicit_auth_flows = [
     "ALLOW_USER_SRP_AUTH",
-    "ALLOW_REFRESH_TOKEN_AUTH"
+    "ALLOW_REFRESH_TOKEN_AUTH",
+    # not usually recommended, but makes testing easier for this guide
+    "ALLOW_USER_PASSWORD_AUTH"  
   ]
 
   refresh_token_validity = 30
@@ -270,6 +273,8 @@ resource "aws_lambda_function" "lambda_function_trigger" {
   environment {
     variables = {
       KEY_ID = aws_kms_key.kms_key.arn
+      AWS_LAMBDA_HANDLER_LOG_LEVEL = "Debug"
+      SOURCE_EMAIL_ADDRESS_PARAMETER = aws_ssm_parameter.source_notification_email.name
     }
   }
 

@@ -14,3 +14,8 @@ variable "stage" {
   description = "The environment stage"
   default     = "dev"
 }
+
+variable "email_identity" {
+  type = string
+  description = "An email address that will be registed as an email identity in SES"
+}

@@ -13,8 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
-    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.5.10" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.1" />
+    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.101.99" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.102.13" />
+    <PackageReference Include="AWSSDK.SimpleEmailV2" Version="3.7.102.14" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.104.4" />
   </ItemGroup>
   
 </Project>

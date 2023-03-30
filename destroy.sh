@@ -9,8 +9,6 @@ DEFAULT_RELEASE_TYPE='Debug'
 DEFAULT_REGION='ap-southeast-2'
 DEFAULT_STAGE='dev'
 
-AWS_VAULT_PREFIX=''
-
 REGION=$DEFAULT_REGION
 STAGE=$DEFAULT_STAGE
 
@@ -19,16 +17,12 @@ function usage {
     echo "  Script for destroying resources on AWS."
     echo ""
     echo "USAGE:"
-    echo "  destroying.sh [-p credentials_profile] [-r region] [-s stage]"
+    echo "  destroying.sh [-p profile] [-r region] [-s stage]"
     echo ""
     echo "OPTIONS"
-    echo "  -p   the credentials profile to use (uses aws-vault)"
+    echo "  -p   the AWS credentials profile to use (default: none)"
     echo "  -r   region (default: ap-southeast-2)"
     echo "  -s   the stage to destroy [dev, test, prod] (default: dev)"
-}
-
-function aws_exec {
-    ${AWS_VAULT_PREFIX}$1
 }
 
 function pushd() {
@@ -41,7 +35,7 @@ function popd() {
 
 while getopts "p:r:s" option; do
     case ${option} in
-    p) AWS_VAULT_PROFILE=$OPTARG ;;
+    p) AWS_PROFILE=$OPTARG ;;
     r) REGION=$OPTARG ;;
     s) STAGE=$OPTARG ;;
     \?)
@@ -57,21 +51,23 @@ if [[ -n "${VALIDATION_ERROR}" ]]; then
     exit 1
 fi
 
-if [[ -n "${AWS_VAULT_PROFILE}" ]]; then
-    AWS_VAULT_PREFIX="aws-vault exec ${AWS_VAULT_PROFILE} --no-session -- "
+if [[ -n "${AWS_PROFILE}" ]]; then
+    export AWS_PROFILE=$AWS_PROFILE
+else
+    AWS_PROFILE="-"
 fi
 
 echo "=== Using the following parameters ==="
 echo "Region: ${REGION}"
 echo "Stage: ${STAGE}"
-echo "Profile: ${AWS_VAULT_PROFILE}"
+echo "Profile: ${AWS_PROFILE}"
 
 echo ""
 echo "=== Applying action: ${TF_ACTION} ==="
 
 pushd ./infrastructure
 terraform init
-aws_exec "terraform ${TF_ACTION} --var aws_region=${REGION} --var project_name=${NAME}"
+terraform ${TF_ACTION} --var aws_region=${REGION} --var project_name=${NAME}
 popd
 
 echo ""
